@@ -1,11 +1,18 @@
-# Quantitative Finance Dashboard  
-**Python · Git · Linux for Finance**
+# Quantitative Finance Dashboard
+
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.x-FF4B4B?logo=streamlit&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Data](https://img.shields.io/badge/Data-Yahoo%20Finance-6001D2?logo=yahoo&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen)
+
+A **Streamlit-based quantitative finance dashboard** for backtesting systematic trading strategies on individual assets and multi-asset portfolios, built as a 4th-year engineering project at ESILV.
 
 ---
 
 ## 1. Project Context
 
-This project was developed as part of the **Python, Git, Linux for Finance** course.  
+This project was developed as part of the **Python, Git, Linux for Finance** course.
 It simulates the work of a **quantitative research team** in an asset management company, whose role is to support portfolio managers with **quantitative tools**.
 
 The objective is to design and deploy a **professional interactive dashboard** able to:
@@ -22,14 +29,14 @@ The application is built in **Python with Streamlit**, versioned using **Git/Git
 
 This project was completed by **two students**, with a strict separation of responsibilities, as required by the project guidelines.
 
-- **Maxime Farré — Quant A (Single Asset Analysis)**  
+- **Maxime Farré — Quant A (Single Asset Analysis)** · [@MaximeFARRE](https://github.com/MaximeFARRE)
   Responsible for:
   - single-asset data loading and preprocessing,
   - implementation of quantitative strategies on one asset,
   - backtesting logic and performance metrics,
   - visualization of asset price vs strategy performance.
 
-- **Emilien Combaret — Quant B (Multi-Asset Portfolio Analysis)**  
+- **Emilien Combaret — Quant B (Multi-Asset Portfolio Analysis)** · [@EmilienCombaret](https://github.com/EmilienCombaret)
   Responsible for:
   - extension to multi-asset portfolios (minimum 3 assets),
   - portfolio allocation and rebalancing logic,
@@ -42,7 +49,7 @@ Both modules are integrated into a **single unified Streamlit application**.
 
 ## 3. Data Sources & API
 
-Market data is retrieved from a **public financial API** through the Quant A data loader  
+Market data is retrieved from a **public financial API** through the Quant A data loader
 (e.g. *yfinance* or an equivalent public data provider).
 
 Key characteristics:
@@ -127,8 +134,6 @@ The module computes:
 
 ## 6. Application Structure
 
-The repository follows the structure below:
-
 ```text
 PROJET/
 ├── .streamlit/
@@ -155,10 +160,70 @@ PROJET/
 │   │
 │   └── __init__.py
 │
+├── docs/                        # Technical documentation
+│   └── api_quant_a.md           # Quant A public API reference
 ├── reports/                     # Daily reports generated via cron
-│   ├── ...
-│
+├── screenshots/                 # Application screenshots
 ├── main.py                      # Streamlit application entry point
-├── .gitignore
-├── README.md                    # Project documentation
-└── todo.txt
+├── requirements.txt             # Python dependencies
+├── LICENSE
+└── README.md
+```
+
+---
+
+## 7. Installation
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/MaximeFARRE/Projet-Python-Git-A4.git
+cd Projet-Python-Git-A4
+
+# 2. Create and activate a virtual environment
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Launch the dashboard
+streamlit run main.py
+```
+
+Open your browser at `http://localhost:8501`.
+
+### Automate daily reports with cron (Linux / macOS)
+
+Add the following line to your crontab (`crontab -e`) to generate a CAC 40 report every weekday at 18:00:
+
+```
+0 18 * * 1-5 cd /path/to/project && /path/to/.venv/bin/python -m app.quant_a.daily_report >> logs/cron.log 2>&1
+```
+
+---
+
+## 8. Screenshots
+
+*Screenshots will be added here once the application is running.*
+
+<!-- To add a screenshot:
+1. Run `streamlit run main.py`
+2. Take a screenshot and save it to screenshots/
+3. Replace this comment with: ![Dashboard](screenshots/dashboard.png)
+-->
+
+---
+
+## 9. Known Limitations
+
+- **Quant B integration**: some features described in section 5 are developed on the `quant_b` branch and require a merge to run end-to-end.
+- **No transaction costs**: the backtester does not model bid-ask spreads or commissions. All results are gross of fees.
+- **Intraday data depth**: Yahoo Finance limits intraday history to the last 5–7 calendar days depending on the interval.
+- **In-sample optimization**: the parameter grid search runs on the full selected period — no walk-forward or out-of-sample validation is performed.
+- **ML forecasting**: the linear regression model in Quant A is illustrative only and is not intended for production trading signals.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
